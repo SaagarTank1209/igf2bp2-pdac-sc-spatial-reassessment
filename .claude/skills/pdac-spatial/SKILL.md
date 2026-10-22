@@ -25,6 +25,7 @@ and whether it repeats across tumors. Results are descriptive. Key findings due 
 - IGF2BP2, SGMS2, CD274, and PTPRC are nearly undetectable per spot. Use multi-gene signature scores, never single-gene maps. T-cell exhaustion results are exploratory.
 - A5, A6 and B0 are candidate cancer cells (Moncada marker agreement, no copy-number evidence). Never call them confirmed malignant.
 - The IGF2BP2 program is used only if it passes the reproducibility gate locked in docs/input_manifest.md.
+- Spatial tests follow the specification locked in docs/input_manifest.md (block-permutation null, matched random gene sets, tumors as the independent units). Never present array-level p values as evidence of replication.
 
 # Paths
 - Data: /scratch/$USER/pdac_spatial/{raw,counts}. Work and results on scratch, code in the repo.

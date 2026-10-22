@@ -97,3 +97,17 @@ Top genes: the tumor A list is dominated by epithelial junction and polarity gen
 ## Amended fallback for the spatial analysis (written before any spatial result)
 
 Exposure: IGF2BP2 detection per spot (detected or not), modeled with log total UMI, tumor-cell fraction and a stromal score as covariates, and tested against a spatially aware null. IGF2BP2 is detected in only 4 to 16 percent of spots, so power is expected to be low and all results are exploratory. Visual single-gene maps of IGF2BP2 are still not interpreted. Only the adjusted statistical test is reported.
+
+## Spatial analysis specification (locked 2026-10-22, before any spatial result)
+
+Deviation from the earlier plan: the deconvolved tumor-cell fraction is replaced by a marker-based epithelial score, because the single-cell reference is too thin for deconvolution (7 fibroblasts) and cancer cells cannot be separated from normal duct cells by markers alone. The epithelial score measures epithelial content, not cancer fraction, so residual confounding by cancer fraction remains. Tumor G has little epithelium (KRT19 detected in 34 percent of spots).
+
+Positive control, revised: Moncada et al.'s inflammatory fibroblast signature cannot be scored. IL6 is detected in at most 1 percent of spots, HAS1 in at most 4, CCL2 in at most 6, CXCL12 in at most 7 and LIF in at most 11 (CXCL1 and CXCL2 only in array D, at 63 and 29 percent). The substitute tests the stress module as listed in their Figure 5a (CEBPB, DNAJA1, FOS, FOSB, JUN, JUNB, KLF2, KLF4, MAP2K3) against the pan-stromal score (COL1A1, COL1A2, COL3A1, DCN, LUM). It checks that the pipeline can recover a spatial association and does not test the inflammatory-fibroblast claim. FOS, JUN and JUNB also respond to tissue handling, so a positive result can be technical.
+
+Scores: mean z-score within each array of log-normalized expression (counts divided by the spot total, times 10,000, log1p) over the signature genes that vary. Epithelial covariate: KRT19, KRT7, KRT8, KRT18, MUC1, EPCAM.
+
+Models, one per array: z-scored outcome on exposure, log total UMI, epithelial score and, for H1 and H2, the stromal score. Exposure for H1 and H2: IGF2BP2 detected in the spot (about 14 to 47 detected spots per array). Exposure for the control: stromal score, with covariates log total UMI and epithelial score.
+
+Spatially aware null: the exposure is shuffled within 5 by 5 grid-unit blocks, 1,000 times, which keeps large-scale gradients and tests local association only. Negative control: 200 random gene sets per outcome, matched to the signature size and expression decile, go through the same procedure and give p_vs_random.
+
+Tumors are the independent units (5). Tumor effect = mean over the tumor's arrays. An outcome meets the criterion if its effect has the same sign in at least 4 of 5 tumors, the 95 percent t interval over the 5 tumors (4 degrees of freedom) excludes zero, and the median p_vs_random over arrays is below 0.05. H1 and H2 are hypothesized positive. S1 (lipid-associated macrophages) and S2 (T-cell exhaustion) are exploratory. If the control fails, H1 and H2 are reported as unvalidated.
