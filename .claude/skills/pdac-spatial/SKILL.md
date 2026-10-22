@@ -26,6 +26,7 @@ and whether it repeats across tumors. Results are descriptive. Key findings due 
 - A5, A6 and B0 are candidate cancer cells (Moncada marker agreement, no copy-number evidence). Never call them confirmed malignant.
 - The IGF2BP2 program is used only if it passes the reproducibility gate locked in docs/input_manifest.md.
 - Spatial tests follow the specification locked in docs/input_manifest.md (block-permutation null, matched random gene sets, tumors as the independent units). Never present array-level p values as evidence of replication.
+- Step 04 result: the control failed and H1 and H2 are inconclusive. Report them as unvalidated, and never describe the result as confirming or refuting Chen et al.
 
 # Paths
 - Data: /scratch/$USER/pdac_spatial/{raw,counts}. Work and results on scratch, code in the repo.

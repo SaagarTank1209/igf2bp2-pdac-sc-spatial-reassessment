@@ -111,3 +111,18 @@ Models, one per array: z-scored outcome on exposure, log total UMI, epithelial s
 Spatially aware null: the exposure is shuffled within 5 by 5 grid-unit blocks, 1,000 times, which keeps large-scale gradients and tests local association only. Negative control: 200 random gene sets per outcome, matched to the signature size and expression decile, go through the same procedure and give p_vs_random.
 
 Tumors are the independent units (5). Tumor effect = mean over the tumor's arrays. An outcome meets the criterion if its effect has the same sign in at least 4 of 5 tumors, the 95 percent t interval over the 5 tumors (4 degrees of freedom) excludes zero, and the median p_vs_random over arrays is below 0.05. H1 and H2 are hypothesized positive. S1 (lipid-associated macrophages) and S2 (T-cell exhaustion) are exploratory. If the control fails, H1 and H2 are reported as unvalidated.
+
+## Results of the spatial analysis (step 04, run 2026-10-22)
+
+Nine arrays, five tumors. Tumor-level results (mean adjusted effect in SD of the outcome per unit of exposure, 95 percent t interval over 5 tumors):
+- Control C1 (stress score against stromal score): 0 of 5 tumors positive, mean -0.046 (-0.077 to -0.015), median p_vs_random 0.592. The control did not recover a positive association, and the weak negative association it shows cannot be told apart from matched random gene sets. Control failed.
+- H1 (lipid score, IGF2BP2 detected): 3 of 5 tumors positive, mean 0.068 (-0.108 to 0.245), median p_vs_random 0.562. Criterion not met.
+- H2 (macrophage score): 1 of 5 tumors positive, mean -0.098 (-0.237 to 0.041), median p_vs_random 0.726. Criterion not met. The lean is negative, opposite to the hypothesis.
+- S1 (lipid-associated macrophages): mean -0.026 (-0.249 to 0.196). S2 (T-cell exhaustion): mean 0.140 (-0.160 to 0.440). Exploratory, no random-set comparison.
+Verdict under the locked rules: the control failed, so H1 and H2 are reported as unvalidated, and neither meets its criterion. The data are inconclusive for H1 and H2 at this sample size. They are compatible with no effect and with effects up to about a quarter of an SD.
+
+Array level: 4 of 45 block-permutation tests are below 0.05 (A1 H1 0.012, A3 H1 0.038, B3 H1 0.037, A2 S2 0.041), and A1 H2 is at 0.050 with a negative effect. p_vs_random for the H1 and H2 hits: A1 H1 0.065, A3 H1 0.592, B3 H1 0.080, A1 H2 0.090. Three arrays show H1 effects of 0.38 to 0.47 and B2 shows -0.34.
+
+Calibration on real data (share of matched random gene sets with block p below 0.05, expected about 0.05): control model 6 to 21 percent per array (mean 13), H1 model 4 to 28 percent (mean 9), H2 model 3 to 29 percent (mean 9). Array A3, the lowest-depth array, is the outlier for H1 and H2 (28 and 29 percent, with 62 and 46 percent of random sets at |t| above 2). The block-permutation p values are anti-conservative on these data, and p_vs_random is the stricter comparison. Possible causes (not verified): a nonlinear depth effect in A3 that the linear covariate misses, and a compositional effect from the very abundant stromal genes. By hand calculation from the array table, excluding A3 changes the H1 mean to about 0.048 and the H2 mean to about -0.087 with no change in the number of positive tumors.
+
+Any analysis added after this point is post-hoc and labeled as such.
