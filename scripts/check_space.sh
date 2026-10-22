@@ -7,7 +7,7 @@ need_gb="${2:?Usage: check_space.sh TARGET_DIR NEEDED_GB}"
 mkdir -p "$target"
 avail_kb=$(df -Pk "$target" | awk 'NR==2 {print $4}')
 avail_gb=$(( avail_kb / 1024 / 1024 ))
-used=$(du -sh "$target" 2>/dev/null | cut -f1 || true)
+used=$(timeout 20 du -sh "$target" 2>/dev/null | cut -f1 || true)
 echo "Target: $target"
 echo "Free on filesystem: ${avail_gb} GB (shared, not your personal quota)"
 echo "Already used in target: ${used:-unknown}"
