@@ -82,3 +82,17 @@ Step 03 derives, within candidate cancer cells of each tumor, the genes that dif
 - The program counts as reproducible only if both held-out AUCs (A to B and B to A) exceed 0.5 with p below 0.05 against the null, and the top-100 overlap between tumors has p below 0.05.
 - If it passes: the spatial state score uses the program genes. For arrays of A and B, use the program derived in the other tumor. For D, E and G, use the union of both top-100 lists.
 - If it fails: report that no reproducible IGF2BP2 program was found in these data. The spatial analysis then uses IGF2BP2 expression alone, adjusted for tumor-cell fraction and log total UMI, and is labeled exploratory.
+
+## Result of the reproducibility gate (step 03, run 2026-10-22)
+
+Candidate cancer cells: A5 and A6 (276 cells), B0 (338 cells). The gene universe is about 3,900 genes, inferred from the chance overlap of the null.
+- Top-100 overlap between tumors: 1 gene (DIP2B) against a null mean of 2.58 (p 0.935).
+- AUC, program derived in A and tested in B: 0.459 (null mean 0.505, p 0.932).
+- AUC, program derived in B and tested in A: 0.554 (null mean 0.500, p 0.048).
+- Spearman correlation of the t statistics over all genes: 0.008 (p 0.351).
+Verdict: the gate is not passed (the A to B AUC and the overlap fail). The single p of 0.048 is one of four tests and is not read as evidence. No reproducible IGF2BP2-detection program was found in these two tumors at this sample size. This is not a test of the Chen et al. State 3, whose gene list is unavailable and which was defined by subclustering and not by detection of one gene. Power of this test for realistic effect sizes is unknown.
+Top genes: the tumor A list is dominated by epithelial junction and polarity genes (CLDN4, TJP3, F11R, ITGB4, EPPK1, TRIM29) and includes TM4SF1, the A5 marker, so it may partly reflect cancer-cluster identity (not checked). The tumor B list mixes signalling genes (MAPK1, YAP1, CTNNB1), RNA-processing and nucleolar genes, and a few matrix genes. Neither list is dominated by lipid-metabolism genes, though a few appear (PNPLA2 and LIPH in A, ADIPOR1 and SGPP2 in B). Enrichment was not tested.
+
+## Amended fallback for the spatial analysis (written before any spatial result)
+
+Exposure: IGF2BP2 detection per spot (detected or not), modeled with log total UMI, tumor-cell fraction and a stromal score as covariates, and tested against a spatially aware null. IGF2BP2 is detected in only 4 to 16 percent of spots, so power is expected to be low and all results are exploratory. Visual single-gene maps of IGF2BP2 are still not interpreted. Only the adjusted statistical test is reported.
