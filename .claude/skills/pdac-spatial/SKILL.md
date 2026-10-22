@@ -27,6 +27,7 @@ and whether it repeats across tumors. Results are descriptive. Key findings due 
 - The IGF2BP2 program is used only if it passes the reproducibility gate locked in docs/input_manifest.md.
 - Spatial tests follow the specification locked in docs/input_manifest.md (block-permutation null, matched random gene sets, tumors as the independent units). Never present array-level p values as evidence of replication.
 - Step 04 result: the control failed and H1 and H2 are inconclusive. Report them as unvalidated, and never describe the result as confirming or refuting Chen et al.
+- Step 05 diagnostics are post-hoc. Report them separately from the locked results and never merge them into the verdict of step 04.
 
 # Paths
 - Data: /scratch/$USER/pdac_spatial/{raw,counts}. Work and results on scratch, code in the repo.

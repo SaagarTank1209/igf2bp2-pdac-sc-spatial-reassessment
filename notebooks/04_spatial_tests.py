@@ -247,7 +247,7 @@ def main():
     ax.set_yticks(range(real["outcome"].nunique()))
     ax.set_yticklabels(sorted(real["outcome"].unique()))
     ax.axvline(0, c="k", lw=0.5)
-    ax.set_xlabel("adjusted effect (SD of outcome per unit of exposure); dots = arrays, diamond = mean over tumors")
+    ax.set_xlabel("adjusted effect (SD of outcome per unit of exposure)\ndots: arrays, diamond: mean over tumors")
     fig.tight_layout()
     fig.savefig(out / "effects.png", dpi=120)
 
