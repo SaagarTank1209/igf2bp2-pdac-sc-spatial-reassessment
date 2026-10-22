@@ -218,3 +218,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project data and outputs (kept off GitHub)
+data/*
+results/*
+!data/.gitkeep
+!results/.gitkeep
+*.h5ad
+*.rds
+*.pdf
+work/
+.nextflow*
+
+# PyCharm settings (machine-specific)
+.idea/
+*.iml
