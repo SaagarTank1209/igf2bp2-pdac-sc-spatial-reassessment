@@ -23,6 +23,8 @@ and whether it repeats across tumors. Results are descriptive. Key findings due 
 - Report per array and per tumor. Do not pool. State limits in every summary.
 - Never invent numbers. If a value was not computed, say so.
 - IGF2BP2, SGMS2, CD274, and PTPRC are nearly undetectable per spot. Use multi-gene signature scores, never single-gene maps. T-cell exhaustion results are exploratory.
+- A5, A6 and B0 are candidate cancer cells (Moncada marker agreement, no copy-number evidence). Never call them confirmed malignant.
+- The IGF2BP2 program is used only if it passes the reproducibility gate locked in docs/input_manifest.md.
 
 # Paths
 - Data: /scratch/$USER/pdac_spatial/{raw,counts}. Work and results on scratch, code in the repo.

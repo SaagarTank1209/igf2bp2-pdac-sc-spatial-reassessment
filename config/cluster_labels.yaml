@@ -1,0 +1,39 @@
+# Provisional cluster labels from step 02 (marker means, top genes, UMAPs). Revisit if later steps contradict them.
+# 'malignant' means candidate cancer cells, anchored on Moncada et al. markers (TM4SF1, S100A4) with KRT19 and EPCAM.
+# There is no copy-number evidence. Never describe these clusters as confirmed malignant.
+A:
+  0: acinar
+  1: epithelial
+  2: epithelial
+  3: epithelial
+  4: epithelial
+  5: malignant
+  6: malignant
+  7: endothelial
+  8: epithelial
+  9: macrophage
+  10: tuft
+  11: epithelial
+  12: epithelial
+  13: mast
+  14: pDC
+  15: myeloid
+  16: T_NK
+  17: RBC
+B:
+  0: malignant
+  1: epithelial
+  2: acinar
+  3: epithelial
+  4: epithelial
+  5: epithelial
+  6: mast
+  7: epithelial
+  8: endothelial
+  9: endothelial
+  10: epithelial
+  11: fibroblast
+  12: tuft
+  13: epithelial
+  14: myeloid
+  15: endothelial

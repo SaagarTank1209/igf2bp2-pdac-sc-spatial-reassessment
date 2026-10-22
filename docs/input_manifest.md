@@ -66,3 +66,19 @@ between single-cell and spatial tables (verified for A1 by diff).
 - Independent units are tumors (5), not arrays (9) or spots. A1 to A3 come from one tumor, and B1 to B3 from another.
 - Success: the same direction of effect in at least 4 of 5 tumors, and a pooled interval that excludes zero after adjustment for log total UMI and tumor-cell fraction. Anything weaker is reported as inconclusive.
 - Order of work: crude marker-based tumor score and least-squares composition first, cell2location afterward as a sensitivity check.
+
+## Annotation findings (step 02, 2026-10-22)
+
+- Leiden clusters (resolution 0.8): 18 in tumor A, 16 in tumor B. Provisional labels are in config/cluster_labels.yaml.
+- Epithelial cells: about 1,720 of 1,926 (A) and 1,493 of 1,733 (B).
+- Candidate cancer cells: A5 (108 cells, TM4SF1 high) and A6 (168 cells, S100A4, KRT16, KRT17) match the two cancer clusters of Moncada et al. in this tumor. B0 (338 cells, TM4SF1, CDKN2A, KRT17) matches their single cancer cluster in tumor B. Marker agreement only, no copy-number evidence, so these are candidates. Clusters A8 and B10 may also contain cancer cells and are labeled epithelial.
+- TM4SF1 alone does not mark cancer cells: endothelial clusters carry it too.
+- IGF2BP2 detected in 54 percent of B0 cells against 16 to 29 percent of other epithelial clusters in B, and in 58 percent (A5) and 50 percent (A6) of cancer candidates against 24 to 43 percent of other epithelial clusters in A. It behaves partly as a cancer-lineage marker, so tumor-cell fraction must be a covariate in every spatial model.
+- Reference limits: 7 fibroblasts (B only), 42 T and NK cells (A only, none in B). Stromal composition is estimated from spatial marker scores, and cell2location is a sensitivity check only.
+
+## Gate for the IGF2BP2 program (locked before step 03 results)
+
+Step 03 derives, within candidate cancer cells of each tumor, the genes that differ between IGF2BP2-detected and undetected cells (adjusted for log total UMI and a cell-cycle score) and takes the top 100. The null shuffles detection among cells of similar depth in both tumors (1,000 shuffles) and repeats the whole derivation.
+- The program counts as reproducible only if both held-out AUCs (A to B and B to A) exceed 0.5 with p below 0.05 against the null, and the top-100 overlap between tumors has p below 0.05.
+- If it passes: the spatial state score uses the program genes. For arrays of A and B, use the program derived in the other tumor. For D, E and G, use the union of both top-100 lists.
+- If it fails: report that no reproducible IGF2BP2 program was found in these data. The spatial analysis then uses IGF2BP2 expression alone, adjusted for tumor-cell fraction and log total UMI, and is labeled exploratory.
