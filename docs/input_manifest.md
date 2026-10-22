@@ -7,13 +7,13 @@ Source: GEO GSE111672 (Moncada et al. 2020, Nat Biotechnol). Downloaded to
 
 | Role | File(s) | Content |
 |---|---|---|
-| Single-cell reference, tumor A | GSE111672_PDAC-A-indrop-filtered-expMat.txt.gz | 1,926 cells x 19,737 genes (genes as rows) |
-| Single-cell reference, tumor B | GSE111672_PDAC-B-indrop-filtered-expMat.txt.gz | 1,733 cells x 19,737 genes |
+| Single-cell reference, tumor A | GSE111672_PDAC-A-indrop-filtered-expMat.txt.gz | 1,926 cells x 19,738 genes (genes as rows) |
+| Single-cell reference, tumor B | GSE111672_PDAC-B-indrop-filtered-expMat.txt.gz | 1,733 cells x 19,738 genes |
 | ST, A1 | GSM3036911_PDAC-A-ST1-filtered.txt.gz | 428 spots |
 | ST, A2, A3 | GSM4100721_PDAC-A-st2, GSM4100722_PDAC-A-st3 | 316, 288 spots |
 | ST, B1 | GSM3405534_PDAC-B-ST1-filtered.txt.gz | 224 spots |
 | ST, B2, B3 | GSM4100723_PDAC-B-st2, GSM4100724_PDAC-B-st3 | 321, 242 spots |
-| ST, D, E, G | GSM4100725 (D), GSM4100726 (E), GSM4100728 (G) | 431 (after dedup), 359, 288 spots |
+| ST, D, E, G | GSM4100725 (D), GSM4100726 (E), GSM4100728 (G) | 429(after dedup), 359, 288 spots |
 
 Genes x spots layout. Spot labels are array coordinates (for example 10x13). Gene lists are identical
 between single-cell and spatial tables (verified for A1 by diff).
@@ -30,9 +30,9 @@ between single-cell and spatial tables (verified for A1 by diff).
 
 ## Cleaning rules
 
-- PDAC-D: 29 duplicated spot labels, all with identical columns. Keep the first, drop the rest.
-- Unfiltered arrays (A2, A3, B2, B3, D, E, G) hold 242 to 460 spots, so they appear tissue-only. This is an inference and should be checked against coordinates in the QC notebook.
-- Gene symbols `1-Mar` and `2-Mar` each appear twice in every table (a spreadsheet date-conversion artifact). The two rows behind each name have different counts, so they are different genes. They are renamed `1-Mar__1`, `1-Mar__2`, `2-Mar__1`, `2-Mar__2`, are not summed or dropped, and are excluded from signatures and interpretation.
+- PDAC-D: 29 duplicated spot labels (31 extra columns), all with identical counts. Keep the first of each, drop the rest, leaving 429 spots.
+- Unfiltered arrays (A2, A3, B2, B3, D, E, G) hold 242 to 460 spots. The step 01 geometry check (see QC findings) supports treating them as tissue-only.
+- Gene symbols damaged by spreadsheet date conversion: 27 rows in the PDAC-A single-cell table match a number-month pattern (1-Dec, 1-Mar to 11-Mar, 1-Sep to 14-Sep, with 13-Sep absent), and the gene lists are identical across tables. `1-Mar` and `2-Mar` each occur twice with different counts, so they are different genes. They are renamed `1-Mar__1`, `1-Mar__2`, `2-Mar__1`, `2-Mar__2` and nothing is summed or dropped. All 27 rows stay in the matrices but are excluded from signatures, marker lists, and gene-set lookups, because their labels cannot be matched to current gene symbols.
 
 ## Design decisions
 
@@ -48,3 +48,13 @@ between single-cell and spatial tables (verified for A1 by diff).
 - Per-array statistics table: naive correlation, composition-adjusted association, spatial-null p-value, Moran's I of each score.
 - Summary figure per tumor and a cross-tumor replication figure.
 - Short report stating what held, what did not, and the limits.
+
+## QC findings (step 01, run 2026-10-22)
+
+- Gene tables hold 19,738 genes, identical and in the same order in every file. Single-cell: 1,926 cells (A), 1,733 cells (B). Nine spatial arrays total 2,895 spots.
+- Spatial depth varies about sevenfold: median UMI per spot is 403 (A3), 455 (B2), 522 (A2), 903 (B3), 1,167 (A1), 1,493 (G), 1,560 (B1), 2,356 (E), 2,994 (D).
+- Spots form contiguous tissue-shaped regions (bounding-box fill 0.49 to 0.72, 99 to 100 percent of spots have a grid neighbour), so all nine arrays are treated as tissue-only. Not compared with the H&E images.
+- Single-cell detection (fraction of cells with count above 0), A and B: IGF2BP2 0.31, 0.26; SGMS2 0.36, 0.34; CD274 0.015, 0.034; PTPRC 0.060, 0.038.
+- Spatial detection (fraction of spots): IGF2BP2 0.04 to 0.16 (15 to 55 counts per array); SGMS2 0.00 to 0.10; CD274 0.00 to 0.01 (0 to 6 counts); PTPRC 0.00 to 0.06 (0 to 32 counts); CD68 0.15 to 0.73.
+- Consequence: single-gene maps of IGF2BP2, SGMS2, CD274, and PTPRC are not interpretable. Use multi-gene signature scores and composition estimates. Immune-cell signals are close to undetectable, so T-cell exhaustion analyses are exploratory and underpowered.
+- Single-cell tables contain no genes with prefix MT-, so mitochondrial percentage cannot be re-checked.

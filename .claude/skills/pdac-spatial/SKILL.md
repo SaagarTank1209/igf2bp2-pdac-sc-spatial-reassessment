@@ -9,10 +9,10 @@ immunosuppressive and lipid metabolism signatures after deconvolution and spatia
 and whether it repeats across tumors. Results are descriptive. Key findings due Nov 20, 2026.
 
 # Locked inputs (see docs/input_manifest.md)
-- Single-cell: PDAC-A (1,926 cells), PDAC-B (1,733 cells), pooled filtered matrices, 19,737 genes.
+- Single-cell: PDAC-A (1,926 cells), PDAC-B (1,733 cells), pooled filtered matrices, 19,738 genes.
 - Spatial: 9 arrays, 5 tumors: A1-A3, B1-B3, D, E, G. Genes x spots layout.
 - Excluded: PDAC-F (truncated), PDAC-C (no spatial), transposed unfiltered A1/B1 files, per-library files.
-- PDAC-D: drop 29 duplicated spot columns (identical), keep first.
+- PDAC-D: drop 31 duplicate spot columns (29 duplicated labels, identical), keep first; 429 spots remain.
 - Matched reference exists for A and B only. D, E, G use a cross-patient reference, lower confidence.
 
 # Rules
@@ -22,6 +22,7 @@ and whether it repeats across tumors. Results are descriptive. Key findings due 
 - Use a spatially aware null. Plain spot-level Spearman is only a baseline for comparison.
 - Report per array and per tumor. Do not pool. State limits in every summary.
 - Never invent numbers. If a value was not computed, say so.
+- IGF2BP2, SGMS2, CD274, and PTPRC are nearly undetectable per spot. Use multi-gene signature scores, never single-gene maps. T-cell exhaustion results are exploratory.
 
 # Paths
 - Data: /scratch/$USER/pdac_spatial/{raw,counts}. Work and results on scratch, code in the repo.
