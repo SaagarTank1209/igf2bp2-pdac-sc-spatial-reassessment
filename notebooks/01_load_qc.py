@@ -39,8 +39,26 @@ KEY_GENES = ["IGF2BP2", "SGMS2", "CD274", "KRT19", "EPCAM", "PTPRC", "COL1A1", "
 
 
 # %% readers
+def disambiguate_genes(genes):
+    """Rename every occurrence of a repeated gene name to NAME__1, NAME__2, ... (nothing is summed or dropped).
+    Returns (genes, sorted list of repeated names)."""
+    genes = np.asarray(genes, dtype=object)
+    values, counts = np.unique(genes, return_counts=True)
+    repeated = set(values[counts > 1])
+    if not repeated:
+        return genes.astype(str), []
+    seen, out = {}, []
+    for g in genes:
+        if g in repeated:
+            seen[g] = seen.get(g, 0) + 1
+            out.append(f"{g}__{seen[g]}")
+        else:
+            out.append(g)
+    return np.array(out, dtype=str), sorted(repeated)
+
+
 def read_matrix(path):
-    """Read a genes x columns count table. Returns (counts int32 array genes x cols, genes, labels)."""
+    """Read a genes x columns count table. Returns (counts int32 array genes x cols, genes, labels, repeated gene names)."""
     with gzip.open(path, "rt") as fh:
         header = fh.readline().rstrip("\n").split("\t")
         first_row = fh.readline().rstrip("\n").split("\t")
@@ -56,7 +74,8 @@ def read_matrix(path):
     vals = df.to_numpy()
     if np.isnan(vals).any() or (vals < 0).any() or not np.array_equal(vals, np.round(vals)):
         raise SystemExit(f"{path.name}: values are not non-negative integers")
-    return vals.astype(np.int32), df.index.astype(str).to_numpy(), np.asarray(labels, dtype=str)
+    genes, repeated = disambiguate_genes(df.index.astype(str).to_numpy())
+    return vals.astype(np.int32), genes, np.asarray(labels, dtype=str), repeated
 
 
 def drop_duplicate_labels(X, labels, name):
@@ -133,7 +152,7 @@ def main():
 
     # single-cell references
     for tumor, fname in SC.items():
-        X, genes, cells = read_matrix(raw_dir / fname)
+        X, genes, cells, repeated = read_matrix(raw_dir / fname)
         if len(set(genes)) != len(genes):
             raise SystemExit(f"{fname}: duplicated gene names")
         if ref_genes is None:
@@ -147,6 +166,7 @@ def main():
         sc_rows.append({"tumor": tumor, "n_cells": adata.n_obs, "n_genes": adata.n_vars,
                         "umi_q05": q(umi, 5), "umi_median": q(umi, 50), "umi_q95": q(umi, 95),
                         "genes_median": q(ngene, 50), "n_mt_genes": int(sum(mt)),
+                        "renamed_genes": ";".join(repeated) or "none",
                         "pct_mt_median": round(float(np.median(pct_mt)), 2),
                         "pct_mt_max": round(float(pct_mt.max()), 2)})
         gene_rows += key_gene_table(adata, f"sc_{tumor}")
@@ -155,7 +175,7 @@ def main():
     # spatial arrays
     coords_for_plot = {}
     for arr, (tumor, fname) in SPATIAL.items():
-        X, genes, labels = read_matrix(counts_dir / fname)
+        X, genes, labels, repeated = read_matrix(counts_dir / fname)
         n_raw = X.shape[1]
         X, labels, n_dup = drop_duplicate_labels(X, labels, arr)
         xy = parse_xy(labels, arr)
@@ -169,7 +189,8 @@ def main():
         row = {"array": arr, "tumor": tumor, "n_spots_raw": n_raw, "n_duplicates_dropped": n_dup,
                "n_spots": adata.n_obs, "n_genes": adata.n_vars,
                "umi_q05": q(umi, 5), "umi_median": q(umi, 50), "umi_q95": q(umi, 95),
-               "genes_median": q(ngene, 50), "genes_same_set_as_sc": same_set,
+               "genes_median": q(ngene, 50), "renamed_genes": ";".join(repeated) or "none",
+               "genes_same_set_as_sc": same_set,
                "genes_same_order_as_sc": same_order}
         row.update(spot_geometry(xy))
         sp_rows.append(row)

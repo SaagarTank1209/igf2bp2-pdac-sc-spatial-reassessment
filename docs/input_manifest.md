@@ -32,6 +32,7 @@ between single-cell and spatial tables (verified for A1 by diff).
 
 - PDAC-D: 29 duplicated spot labels, all with identical columns. Keep the first, drop the rest.
 - Unfiltered arrays (A2, A3, B2, B3, D, E, G) hold 242 to 460 spots, so they appear tissue-only. This is an inference and should be checked against coordinates in the QC notebook.
+- Gene symbols `1-Mar` and `2-Mar` each appear twice in every table (a spreadsheet date-conversion artifact). The two rows behind each name have different counts, so they are different genes. They are renamed `1-Mar__1`, `1-Mar__2`, `2-Mar__1`, `2-Mar__2`, are not summed or dropped, and are excluded from signatures and interpretation.
 
 ## Design decisions
 
