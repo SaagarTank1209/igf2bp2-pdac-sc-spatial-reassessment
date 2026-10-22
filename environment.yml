@@ -1,0 +1,25 @@
+name: pdac-spatial
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - statsmodels
+  - matplotlib
+  - seaborn
+  - anndata
+  - scanpy
+  - leidenalg
+  - python-igraph
+  - umap-learn
+  - libpysal
+  - esda
+  - pyyaml
+  - jupyterlab
+  - ipykernel
+  - papermill
+  - nbconvert
