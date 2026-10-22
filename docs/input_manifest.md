@@ -58,3 +58,11 @@ between single-cell and spatial tables (verified for A1 by diff).
 - Spatial detection (fraction of spots): IGF2BP2 0.04 to 0.16 (15 to 55 counts per array); SGMS2 0.00 to 0.10; CD274 0.00 to 0.01 (0 to 6 counts); PTPRC 0.00 to 0.06 (0 to 32 counts); CD68 0.15 to 0.73.
 - Consequence: single-gene maps of IGF2BP2, SGMS2, CD274, and PTPRC are not interpretable. Use multi-gene signature scores and composition estimates. Immune-cell signals are close to undetectable, so T-cell exhaustion analyses are exploratory and underpowered.
 - Single-cell tables contain no genes with prefix MT-, so mitochondrial percentage cannot be re-checked.
+
+## Controls and success criterion (locked 2026-10-22, before any spatial result)
+
+- Positive control: Moncada et al. reported colocalization of a cancer stress-response module with inflammatory fibroblasts across these arrays. The pipeline must recover that association before any result on the IGF2BP2 state is believed.
+- Negative control: random gene sets matched for expression level, run through the identical statistics, to estimate the false-association rate.
+- Independent units are tumors (5), not arrays (9) or spots. A1 to A3 come from one tumor, and B1 to B3 from another.
+- Success: the same direction of effect in at least 4 of 5 tumors, and a pooled interval that excludes zero after adjustment for log total UMI and tumor-cell fraction. Anything weaker is reported as inconclusive.
+- Order of work: crude marker-based tumor score and least-squares composition first, cell2location afterward as a sensitivity check.
