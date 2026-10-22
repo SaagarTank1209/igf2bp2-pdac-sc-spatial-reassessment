@@ -18,6 +18,7 @@ conda create -y -p "$ENV_DIR" --override-channels -c conda-forge python=3.10
 PY="$ENV_DIR/bin/python"
 "$PY" -m pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cu121
 "$PY" -m pip install "cell2location[tutorials]"
+"$PY" -m pip install --no-deps "pyro-ppl==1.9.1"
 "$PY" -m pip freeze > /scratch/$USER/pdac_spatial/cell2loc_cu121.lock.txt
 "$PY" -c "import importlib.metadata as m; [print(p, m.version(p)) for p in ('cell2location','scvi-tools','torch','numpy','scanpy')]"
 "$PY" -c "import torch, cell2location, scvi; print('imports OK'); print('torch', torch.__version__, 'cuda build', torch.version.cuda)"
