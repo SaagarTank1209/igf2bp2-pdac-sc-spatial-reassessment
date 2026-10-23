@@ -1,0 +1,46 @@
+array	outcome	beta	t	p_block	p_vs_random	test	tumor
+A1	H1_lipid	0.4161	2.3288	0.012	0.0647	IGF2BP2 detected	A
+A1	H2_macrophage	-0.3106	-1.8216	0.05	0.0896	IGF2BP2 detected	A
+A1	S1_lam	-0.0573	-0.3259	0.7413		IGF2BP2 detected	A
+A1	S2_exhaustion	0.0146	0.0725	0.9441		IGF2BP2 detected	A
+A1	C1_stress	-0.0299	-0.5785	0.4346	0.7512	stromal score	A
+A2	H1_lipid	-0.0836	-0.522	0.7003	0.6766	IGF2BP2 detected	A
+A2	H2_macrophage	0.1818	0.9298	0.5205	0.5473	IGF2BP2 detected	A
+A2	S1_lam	0.3093	1.6643	0.0719		IGF2BP2 detected	A
+A2	S2_exhaustion	0.6267	3.0253	0.041		IGF2BP2 detected	A
+A2	C1_stress	-0.0162	-0.2792	0.7892	0.8607	stromal score	A
+A3	H1_lipid	0.4731	2.0484	0.038	0.592	IGF2BP2 detected	A
+A3	H2_macrophage	-0.2317	-0.9766	0.4316	0.7662	IGF2BP2 detected	A
+A3	S1_lam	0.385	1.6477	0.3147		IGF2BP2 detected	A
+A3	S2_exhaustion	0.7218	2.9456	0.1828		IGF2BP2 detected	A
+A3	C1_stress	-0.014	-0.2283	0.7772	0.8408	stromal score	A
+B1	H1_lipid	-0.0462	-0.276	0.7762	0.7761	IGF2BP2 detected	B
+B1	H2_macrophage	-0.0357	-0.1885	0.8621	0.8706	IGF2BP2 detected	B
+B1	S1_lam	-0.0217	-0.1194	0.8801		IGF2BP2 detected	B
+B1	S2_exhaustion	0.1048	0.5483	0.5315		IGF2BP2 detected	B
+B1	C1_stress	-0.0003	-0.005	0.993	1.0	stromal score	B
+B2	H1_lipid	-0.3425	-1.4266	0.1389	0.209	IGF2BP2 detected	B
+B2	H2_macrophage	-0.0873	-0.3406	0.7163	0.7264	IGF2BP2 detected	B
+B2	S1_lam	-0.1227	-0.4571	0.6194		IGF2BP2 detected	B
+B2	S2_exhaustion	-0.0036	-0.0132	0.994		IGF2BP2 detected	B
+B2	C1_stress	0.0472	0.8445	0.5804	0.4776	stromal score	B
+B3	H1_lipid	0.3757	1.9204	0.037	0.0796	IGF2BP2 detected	B
+B3	H2_macrophage	-0.1875	-0.9707	0.3157	0.393	IGF2BP2 detected	B
+B3	S1_lam	-0.1028	-0.5116	0.5894		IGF2BP2 detected	B
+B3	S2_exhaustion	-0.2743	-1.3331	0.1928		IGF2BP2 detected	B
+B3	C1_stress	-0.1136	-1.566	0.3017	0.2388	stromal score	B
+D	H1_lipid	-0.0944	-0.6888	0.4855	0.5622	IGF2BP2 detected	D
+D	H2_macrophage	0.0439	0.3232	0.7153	0.7463	IGF2BP2 detected	D
+D	S1_lam	-0.0186	-0.1253	0.9131		IGF2BP2 detected	D
+D	S2_exhaustion	0.21	1.3454	0.1548		IGF2BP2 detected	D
+D	C1_stress	-0.0473	-0.9279	0.2897	0.592	stromal score	D
+E	H1_lipid	0.1511	0.7963	0.4276	0.4129	IGF2BP2 detected	E
+E	H2_macrophage	-0.2625	-1.3208	0.1029	0.2189	IGF2BP2 detected	E
+E	S1_lam	-0.2797	-1.3727	0.1329		IGF2BP2 detected	E
+E	S2_exhaustion	-0.144	-0.6786	0.4835		IGF2BP2 detected	E
+E	C1_stress	-0.0773	-1.6258	0.1469	0.2736	stromal score	E
+G	H1_lipid	0.0206	0.0922	0.9131	0.9254	IGF2BP2 detected	G
+G	H2_macrophage	-0.0481	-0.2522	0.8012	0.7562	IGF2BP2 detected	G
+G	S1_lam	0.0372	0.1659	0.8741		IGF2BP2 detected	G
+G	S2_exhaustion	0.2373	0.9774	0.4296		IGF2BP2 detected	G
+G	C1_stress	-0.0616	-1.1433	0.2158	0.2687	stromal score	G

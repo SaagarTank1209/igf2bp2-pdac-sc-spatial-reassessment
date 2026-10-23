@@ -1,0 +1,4 @@
+model	mean_rand_t	mean_rand_sd_t	z_n_tumors	z_n_positive	z_mean	z_ci_low	z_ci_high
+C1_stress	0.107	1.366	5	0	-0.638	-1.036	-0.241
+H1_lipid	0.391	1.036	5	4	-0.012	-0.694	0.67
+H2_macrophage	0.251	1.019	5	1	-0.595	-1.512	0.321

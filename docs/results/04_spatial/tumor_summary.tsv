@@ -1,0 +1,6 @@
+outcome	n_tumors	n_positive	mean_beta	ci_low	ci_high	median_p_vs_random	supports_positive	supports_negative	meets_criterion
+C1_stress	5	0	-0.046	-0.077	-0.015	0.592	False	True	False
+H1_lipid	5	3	0.068	-0.108	0.245	0.562	False	False	False
+H2_macrophage	5	1	-0.098	-0.237	0.041	0.726	False	False	False
+S1_lam	5	2	-0.026	-0.249	0.196		False	False	False
+S2_exhaustion	5	3	0.14	-0.16	0.44		False	False	False

@@ -1,0 +1,3 @@
+tumor	n_cells	n_genes	umi_q05	umi_median	umi_q95	genes_median	n_mt_genes	renamed_genes	pct_mt_median	pct_mt_max
+A	1926	19738	1163	2848	6717	1581	0	1-Mar;2-Mar	0.0	0.0
+B	1733	19738	1061	2247	4853	1355	0	1-Mar;2-Mar	0.0	0.0

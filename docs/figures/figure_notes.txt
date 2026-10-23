@@ -1,0 +1,6 @@
+Figures written by notebooks/06_figures.py
+fig1_single_cell.png: cluster sizes by provisional class for tumors A and B, and IGF2BP2 detection by cell group. Labels are provisional and have no copy-number support.
+fig2_reproducibility_gate.png: t statistics of IGF2BP2-detected versus undetected candidate cancer cells in tumor A against tumor B, and the gate statistics against the shuffled-label null.
+fig3_spatial_maps.png: spot maps of the arrays with the most and the fewest IGF2BP2-detected spots (chosen by rule, not appearance).
+fig4_effects.png: tumor-level adjusted effects from the locked analysis, and the bias-corrected values (post-hoc).
+fig5_posthoc_diagnostics.png: spike-in detectability, split-half plumbing control, and random-set bias per array. All post-hoc.

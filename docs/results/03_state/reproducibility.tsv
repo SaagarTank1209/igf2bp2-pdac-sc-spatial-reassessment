@@ -1,0 +1,5 @@
+statistic	observed	null_mean	null_sd	p_upper
+spearman_t	0.008	-0.0	0.02	0.3506
+top_overlap	1.0	2.581	1.573	0.9351
+auc_A_to_B	0.459	0.505	0.031	0.9321
+auc_B_to_A	0.554	0.5	0.031	0.048

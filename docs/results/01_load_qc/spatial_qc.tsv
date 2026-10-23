@@ -1,0 +1,10 @@
+array	tumor	n_spots_raw	n_duplicates_dropped	n_spots	n_genes	umi_q05	umi_median	umi_q95	genes_median	renamed_genes	genes_same_set_as_sc	genes_same_order_as_sc	x_min	x_max	y_min	y_max	bbox_fill	frac_with_grid_neighbor
+A1	A	428	0	428	19738	269	1167	9574	681	1-Mar;2-Mar	True	True	2	30	8	34	0.547	0.998
+A2	A	316	0	316	19738	121	522	8481	360	1-Mar;2-Mar	True	True	7	28	7	30	0.598	0.997
+A3	A	288	0	288	19738	146	403	4065	252	1-Mar;2-Mar	True	True	5	24	10	29	0.72	1.0
+B1	B	224	0	224	19738	644	1560	8049	886	1-Mar;2-Mar	True	True	15	32	2	21	0.622	1.0
+B2	B	321	0	321	19738	201	455	2916	338	1-Mar;2-Mar	True	True	6	30	15	34	0.642	1.0
+B3	B	242	0	242	19738	299	903	2608	621	1-Mar;2-Mar	True	True	7	30	12	27	0.63	1.0
+D	D	460	31	429	19738	638	2994	7092	1747	1-Mar;2-Mar	True	True	6	29	2	27	0.688	0.993
+E	E	359	0	359	19738	699	2356	6964	1329	1-Mar;2-Mar	True	True	6	30	10	33	0.598	1.0
+G	G	288	0	288	19738	338	1493	6385	847	1-Mar;2-Mar	True	True	5	23	4	34	0.489	1.0

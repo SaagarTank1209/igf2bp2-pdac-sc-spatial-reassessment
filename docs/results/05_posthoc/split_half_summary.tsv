@@ -1,0 +1,5 @@
+signature	n_tumors	n_positive	mean	ci_low	ci_high
+lipid	5	4	0.049	-0.033	0.131
+macrophage	5	5	0.175	0.052	0.298
+stress	5	4	0.055	-0.001	0.111
+stromal	5	5	0.388	0.213	0.564
