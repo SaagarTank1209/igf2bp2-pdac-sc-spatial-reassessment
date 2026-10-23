@@ -1,0 +1,3 @@
+# Packages added to the pdac-spatial environment after environment.lock.yml was written.
+# Installed with: pip install --no-deps harmonypy   (the pip freeze diff showed only this line)
+harmonypy==2.1.0

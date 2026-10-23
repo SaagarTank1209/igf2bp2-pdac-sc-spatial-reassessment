@@ -206,3 +206,27 @@ Verdict by the rule: the E1 pass is not specific to IGF2BP2. Genes detected at s
 Combined reading of the external check: no evidence for an IGF2BP2-specific program beyond a generic axis, and no lipid link (E2). The tests use detection-based exposures in nuclei and do not evaluate the State 3 of Chen et al.
 
 Addendum to the step 09 results (post-hoc, after the matched genes were inspected): the detection distances of the 100 matched genes range from 0.072 to 0.145 (mean 0.118, median 0.122), that is about 12 percentage points of difference per patient on average, so the matching is loose. The 25 closest genes have a mean AUC of 0.555 (against 0.566 for IGF2BP2), and 6 of 25 (24 percent) reach or exceed the AUC of IGF2BP2. The Spearman correlation between distance and AUC is 0.282: looser matches give higher AUCs. A small IGF2BP2-specific component of the order of 0.01 AUC cannot be excluded and cannot be shown. The verdict is unchanged: the E1 pass is not specific to IGF2BP2 at the resolution of these data. The choice of the closest 25 was made after seeing the result.
+
+## State extension on GSE202051 (plan written before any clustering or state analysis was run in this dataset)
+
+Question: does an IGF2BP2-enriched group of cancer nuclei exist across patients, does its signature hold in held-out patients, is it specific to IGF2BP2, and is it linked to the lipid score? Patients are the units throughout.
+
+Data: the cancer nuclei of step 07 (labels as in the earlier plan). Primary population: the 18 untreated patients (52,999 nuclei). Secondary, reported separately: the 26 eligible patients. Sensitivity S1: only nuclei from copy-number clusters whose score lies above the median over cancer nuclei (this needs the cnv columns added to the cache). Sensitivities S2 and S3: Leiden resolutions 0.2 and 0.5.
+
+Comparison genes: before any map is built, the 100 genes whose per-patient detection fractions are closest to those of IGF2BP2 are chosen as in step 09 (at least 30 detected and 30 undetected nuclei in every patient; IGF2BP2-AS1 and lncRNA-like genes excluded). IGF2BP2 and these 100 genes are removed from the inputs of the map, so all 101 genes are treated identically.
+
+Map: 3,000 highly variable genes chosen across patients (batch = patient) from the log-normalized expression, then scaling, PCA with 30 components, Harmony with batch = patient (ComBat only if Harmony cannot be installed), a neighbor graph with 30 neighbors, and Leiden at resolution 0.3 (primary). Fixed seeds.
+
+Repeated splits: the untreated patients are split into discovery and validation halves (9 and 9) at random 20 times with fixed seeds. The map is built once on all patients without using the exposure genes. This is mild transduction (validation nuclei help define the clusters), and it is stated as a limitation. For each split and each of the 101 genes:
+(1) The enriched cluster is the one with the largest mean difference in detection fraction (inside minus outside the cluster) over discovery patients with at least 30 nuclei in and 30 outside; at least 3 patients must contribute.
+(2) The signature is the 100 genes with the largest paired t statistic of the mean log expression difference (inside minus outside) over those patients, excluding the exposure gene.
+(3) In each validation patient the signature score (mean z-score within patient, residualized on log depth and cycle score) is tested by AUC against the exposure gene's detection. The statistic is the mean AUC over validation patients.
+
+Criteria (each evaluated per split; a criterion holds if it is met in at least 70 percent of the 20 splits):
+C1 multi-patient: at least 60 percent of validation patients have at least 5 percent of their cancer nuclei in the IGF2BP2 cluster.
+C2 enrichment specificity: the validation detection-fraction difference for IGF2BP2 exceeds that of at least 95 of the 100 comparison genes (empirical p at most 0.05).
+C3 signature specificity: the mean validation AUC for IGF2BP2 exceeds 0.5, exceeds that of at least 95 of the 100 comparison genes, and the AUC is above 0.5 in at least 60 percent of validation patients.
+The state is supported only if C1, C2 and C3 all hold.
+C4 lipid link (evaluated only if the state is supported): the lipid score (the 15 genes of step 04) is compared between nuclei in the IGF2BP2 cluster and the other cancer nuclei within each patient (covariates log depth and cycle score; 200 matched random gene sets as in step 08). C4 holds if the effect is positive in at least 70 percent of patients, the 95 percent t interval over patients excludes zero, and the median p against the random gene sets is below 0.05.
+
+Reading rules: all of C1 to C3 hold, a state exists in this data and is specific to IGF2BP2; C1 fails, the group is patient-specific; C1 holds and C2 or C3 fails, the group is real but not specific to IGF2BP2 (as in step 09); no IGF2BP2-enriched cluster has a positive enrichment in discovery patients, no state is found. Sensitivities S1 to S3 and the 26-patient population are reported beside the primary result and never in its place. The state is derived here by the published procedure and is not the State 3 of Chen et al., whose gene list is not public. Everything beyond these analyses is post-hoc.
