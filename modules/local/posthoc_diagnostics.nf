@@ -5,7 +5,7 @@ process POSTHOC_DIAGNOSTICS {
     publishDir "${params.outdir}", mode: 'copy'
 
     input:
-    val h5ad_dir
+    path qc_dir
 
     output:
     path "05_posthoc"
@@ -13,7 +13,7 @@ process POSTHOC_DIAGNOSTICS {
     script:
     """
     python ${projectDir}/notebooks/05_posthoc_diagnostics.py \\
-        --h5ad_dir ${h5ad_dir} \\
+        --h5ad_dir ${qc_dir}/h5ad \\
         --outdir 05_posthoc
     """
 }

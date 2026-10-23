@@ -5,7 +5,7 @@ process ANNOTATE_SC {
     publishDir "${params.outdir}", mode: 'copy'
 
     input:
-    val h5ad_dir
+    path qc_dir
 
     output:
     path "02_annotation"
@@ -13,7 +13,7 @@ process ANNOTATE_SC {
     script:
     """
     python ${projectDir}/notebooks/02_sc_annotation.py \\
-        --h5ad_dir ${h5ad_dir} \\
+        --h5ad_dir ${qc_dir}/h5ad \\
         --outdir 02_annotation
     """
 }

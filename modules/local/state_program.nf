@@ -5,7 +5,7 @@ process STATE_PROGRAM {
     publishDir "${params.outdir}", mode: 'copy'
 
     input:
-    val h5ad_dir
+    path ann_dir
 
     output:
     path "03_state"
@@ -13,7 +13,7 @@ process STATE_PROGRAM {
     script:
     """
     python ${projectDir}/notebooks/03_state_program.py \\
-        --h5ad_dir ${h5ad_dir} \\
+        --h5ad_dir ${ann_dir} \\
         --labels ${projectDir}/config/cluster_labels.yaml \\
         --outdir 03_state
     """

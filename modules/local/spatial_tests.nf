@@ -5,7 +5,7 @@ process SPATIAL_TESTS {
     publishDir "${params.outdir}", mode: 'copy'
 
     input:
-    val h5ad_dir
+    path qc_dir
 
     output:
     path "04_spatial"
@@ -13,7 +13,7 @@ process SPATIAL_TESTS {
     script:
     """
     python ${projectDir}/notebooks/04_spatial_tests.py \\
-        --h5ad_dir ${h5ad_dir} \\
+        --h5ad_dir ${qc_dir}/h5ad \\
         --outdir 04_spatial
     """
 }
