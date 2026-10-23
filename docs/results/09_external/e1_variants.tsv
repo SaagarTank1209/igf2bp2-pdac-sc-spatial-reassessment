@@ -1,0 +1,5 @@
+variant	mean_auc	ci_low	ci_high	share_auc_gt_half	null_mean	null_sd	p_upper	passes
+V0 baseline	0.5663	0.5436	0.5891	0.9444	0.5036	0.0073	0.005	True
+V1 + log detected genes	0.5705	0.5483	0.5926	0.8889	0.5066	0.0075	0.005	True
+V2 + nuclear lncRNA score, lncRNA-like genes removed	0.5675	0.5475	0.5876	1.0	0.5051	0.0074	0.005	True
+V3 both	0.5716	0.5512	0.592	1.0	0.5063	0.0072	0.005	True

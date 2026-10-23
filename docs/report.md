@@ -107,7 +107,7 @@ E2 was not met in any analysis (Table 3). The lipid score was, if anything, slig
 
 *Table 3. E2, lipid score in cancer nuclei.*
 
-The robustness checks changed the interpretation of E1 (Table 4). Adding covariates, or removing lncRNA-like genes from the programs, left the mean AUC at 0.566 to 0.572. But with random genes detected at similar rates as the exposure, the mean AUC was 0.572 (SD 0.035, maximum 0.661), and 49 of the 100 genes reached or exceeded the AUC of IGF2BP2. The rule fixed in advance allowed at most 5. A closer-matched subset (the 25 nearest genes, chosen after seeing the result) averaged 0.555, and 6 of 25 reached or exceeded 0.566. IGF2BP2 is therefore not distinguishable from genes detected at similar rates.
+The robustness checks changed the interpretation of E1 (Table 4, Figure 6). Adding covariates, or removing lncRNA-like genes from the programs, left the mean AUC at 0.566 to 0.572. But with random genes detected at similar rates as the exposure, the mean AUC was 0.572 (SD 0.035, maximum 0.661), and 49 of the 100 genes reached or exceeded the AUC of IGF2BP2. The rule fixed in advance allowed at most 5. A closer-matched subset (the 25 nearest genes, chosen after seeing the result) averaged 0.555, and 6 of 25 reached or exceeded 0.566. IGF2BP2 is therefore not distinguishable from genes detected at similar rates.
 
 | Variant | Mean AUC (95% interval) | p |
 |---|---|---|
@@ -118,6 +118,10 @@ The robustness checks changed the interpretation of E1 (Table 4). Adding covaria
 | V4 100 matched random genes | mean 0.572, max 0.661; 49 of 100 at or above 0.566 | not applicable |
 
 *Table 4. Post-hoc robustness of E1 (untreated patients, primary exposure).*
+
+![Figure 6](figures/fig6_external_check.png)
+
+*Figure 6. External check on GSE202051 (untreated patients, primary exposure). Top left: mean held-out AUC of 100 random genes detected at similar rates (histogram) against IGF2BP2 (red) and the shuffled-label null (dashed). Top right: held-out AUC for each patient. Bottom left: the robustness variants against the spread of the random genes. Bottom right: lipid score effect of IGF2BP2 detection for each patient.*
 
 ## 4. Discussion
 

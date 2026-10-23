@@ -1,0 +1,5 @@
+population	exposure	n_patients	mean_effect	ci_low	ci_high	share_positive	median_p_vs_random	meets_criterion
+untreated	primary	18	-0.0421	-0.1009	0.0167	0.3889	0.3806	False
+untreated	A1	18	-0.0514	-0.0892	-0.0136	0.2778	0.3532	False
+all_eligible	primary	26	-0.0514	-0.1	-0.0027	0.3462	0.3905	False
+all_eligible	A1	26	-0.0309	-0.0674	0.0056	0.3077	0.3905	False

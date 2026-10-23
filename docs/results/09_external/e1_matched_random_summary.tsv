@@ -1,0 +1,6 @@
+igf2bp2_mean_auc	0.5663
+n_random_genes	100.0
+random_mean_auc	0.572
+random_sd	0.0348
+random_max	0.6614
+share_random_at_or_above_igf2bp2	0.49
