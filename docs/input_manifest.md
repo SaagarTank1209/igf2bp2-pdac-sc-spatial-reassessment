@@ -176,3 +176,11 @@ Amendment A1 (written before any association was computed in this dataset): a se
 ## Reproducibility check (clean-room run, 2026-10-22)
 
 A fresh clone of the repository at commit dc82ec8 was run in a new folder with data downloaded again by scripts/download_data.sh (archive size verified, 25 count files extracted), using one command: nextflow run main.nf -profile explorer --step all. Six tasks completed in 7 minutes 17 seconds. Ten key result tables are byte-identical to those of the original step-by-step runs: spatial_qc, sc_qc, clusters_A, clusters_B, reproducibility, array_tests, tumor_summary, spike_in_summary, split_half_summary and random_set_bias_summary. Limits: same cluster and software; the conda environments were reused by path and not rebuilt from the lock files; figures, h5ad files and the external steps 07 and 08 (run separately with sbatch) were not compared.
+
+## External check: implementation clarifications (written before E1 and E2 were run)
+
+- Populations: "untreated" (treatment_status Untreated, eligible) and "all_eligible" (every patient meeting the eligibility rule on IGF2BP2 detection). Both are reported for both exposures.
+- A patient enters an analysis of the secondary exposure (A1, IGF2BP2 expression above the patient's median) only if at least 30 nuclei lie above the median and at least 30 lie at or below it. Analyses with fewer than 8 qualifying patients are skipped and reported as skipped.
+- Cell-cycle score: mean z-score, within the patient, of the 19 cycle genes of step 03 that are present. Depth: log of total_counts. Gene universe, program size (100), shuffle strata (10), shuffles (200), random gene sets (200) and the pass rules are as locked above. The random seed is 0.
+- The consensus top-100 list (mean t over untreated patients, primary exposure) is saved for inspection and enters no criterion.
+- Neither test changes the verdicts of steps 03 and 04.
