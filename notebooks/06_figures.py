@@ -44,7 +44,7 @@ def fig_cell_types(res, labels, out):
         sizes = cl.value_counts()
         def grp(c):
             c = labels[tumor].get(c)
-            return groups[0] if c == "malignant" else groups[1] if c == "epithelial" else groups[2]
+            return groups[0] if c == "malignant" else groups[1] if c in ("epithelial", "tuft") else groups[2]
         tot, num = dict.fromkeys(groups, 0.0), dict.fromkeys(groups, 0.0)
         for k, n in sizes.items():
             tot[grp(k)] += n
@@ -81,12 +81,14 @@ def fig_gate(res, out):
     ax1.legend()
     order = ["top_overlap", "auc_A_to_B", "auc_B_to_A", "spearman_t"]
     z = [(rp.loc[s, "observed"] - rp.loc[s, "null_mean"]) / rp.loc[s, "null_sd"] for s in order]
-    ax2.barh(order, z, color=["tab:green" if v > 1.645 else "tab:grey" for v in z])
+    gate_passed = all(z[order.index(s)] > 1.645 for s in ("top_overlap", "auc_A_to_B", "auc_B_to_A"))
+    ax2.barh(order, z, color="tab:grey")
     ax2.axvline(1.645, ls="--", c="k", lw=0.8)
     for i, s in enumerate(order):
         ax2.text(max(z[i], 0) + 0.05, i, f"p = {rp.loc[s, 'p_upper']:.3f}", va="center", fontsize=9)
-    ax2.set_xlabel("observed minus null mean, in null SDs (dashed line: one-sided 5 percent)")
-    ax2.set_title("Reproducibility gate: observed against shuffled-label null")
+    ax2.set_xlabel("observed minus null mean, in null SDs\n(dashed line: one-sided 5 percent)")
+    ax2.set_title("Reproducibility gate: " + ("PASSED" if gate_passed else "NOT passed")
+                  + "\nneeds overlap and both AUCs beyond the dashed line")
     ax2.set_xlim(min(-1, min(z) - 0.5), max(3, max(z) + 1.5))
     fig.tight_layout()
     fig.savefig(Path(out) / "fig2_reproducibility_gate.png", dpi=150)
@@ -114,6 +116,8 @@ def fig_spatial_maps(res, out):
         for a in row:
             a.set_aspect("equal")
             a.invert_yaxis()
+            a.xaxis.set_major_locator(plt.MaxNLocator(integer=True))
+            a.yaxis.set_major_locator(plt.MaxNLocator(integer=True))
     fig.suptitle(f"Arrays shown: {chosen[0]} (most detected spots) and {chosen[1]} (fewest), chosen by rule, not by appearance",
                  fontsize=10)
     fig.tight_layout()
@@ -141,12 +145,12 @@ def fig_effects(res, out):
     rows = [(o, at[at["outcome"] == o].groupby("tumor")["beta"].mean().to_numpy(),
              ts.loc[o, "mean_beta"], ts.loc[o, "ci_low"], ts.loc[o, "ci_high"])
             for o in ["C1_stress", "H1_lipid", "H2_macrophage", "S1_lam", "S2_exhaustion"] if o in ts.index]
-    forest(ax1, rows, "Locked analysis: adjusted effect per tumor (dots), mean and 95% interval over 5 tumors")
+    forest(ax1, rows, "Locked analysis: adjusted effect per tumor (dots)\nmean and 95% interval over 5 tumors (diamond, bars)")
     ax1.set_xlabel("effect in SD of the outcome per unit of exposure")
     rows = [(m, bs[bs["model"] == m].groupby("tumor")["z_vs_random"].mean().to_numpy(),
              bsum.loc[m, "z_mean"], bsum.loc[m, "z_ci_low"], bsum.loc[m, "z_ci_high"])
             for m in ["C1_stress", "H1_lipid", "H2_macrophage"] if m in bsum.index]
-    forest(ax2, rows, "Post-hoc: bias-corrected (real t versus matched random gene sets)")
+    forest(ax2, rows, "Post-hoc: bias-corrected effect per tumor\n(real t versus matched random gene sets)")
     ax2.set_xlabel("z of real t relative to random-set t")
     fig.tight_layout()
     fig.savefig(Path(out) / "fig4_effects.png", dpi=150)
