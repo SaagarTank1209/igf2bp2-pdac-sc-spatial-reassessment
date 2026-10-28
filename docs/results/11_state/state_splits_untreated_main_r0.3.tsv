@@ -1,0 +1,21 @@
+split	igf2bp2_cluster	val_share_ok	val_diff	comp_beaten_diff	val_auc	comp_beaten_auc	n_comparison	C0	C1	C2	C3
+0	1	0.8889	0.0968	65	0.5348	59	100	True	True	False	False
+1	1	0.7778	0.1197	64	0.5436	71	100	True	True	False	False
+2	1	0.8889	0.1413	52	0.5545	76	100	True	True	False	False
+3	6	0.0		0	0.5069	14	100	False	False	False	False
+4	1	0.7778	0.0919	68	0.5415	66	100	True	True	False	False
+5	1	0.7778	0.0722	51	0.5239	46	100	True	True	False	False
+6	1	0.8889	0.1295	75	0.5448	73	100	True	True	False	False
+7	6	0.0		0	0.4981	6	100	False	False	False	False
+8	1	0.7778	0.0859	68	0.5401	61	100	True	True	False	False
+9	1	0.8889	0.0715	38	0.5245	48	100	True	True	False	False
+10	1	0.7778	0.0713	48	0.5262	56	100	True	True	False	False
+11	1	0.7778	0.1	75	0.5541	76	100	True	True	False	False
+12	1	0.8889	0.1246	81	0.5419	70	100	True	True	False	False
+13	1	1.0	0.0992	64	0.5455	76	100	True	True	False	False
+14	1	0.8889	0.1461	70	0.5431	70	100	True	True	False	False
+15	1	0.8889	0.1284	56	0.5354	45	100	True	True	False	False
+16	1	0.7778	0.1136	50	0.5256	47	100	True	True	False	False
+17	1	0.8889	0.1399	73	0.5489	81	100	True	True	False	False
+18	1	0.7778	0.0882	73	0.5306	66	100	True	True	False	False
+19	1	0.7778	0.1302	67	0.5537	76	100	True	True	False	False

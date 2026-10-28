@@ -1,0 +1,23 @@
+population	untreated
+variant	main
+resolution	r0.5
+patients	18
+splits	20
+C0_rate	0.85
+C1_rate	0.65
+C2_rate	0.0
+C3_rate	0.0
+C0_splits_passing	17
+C0_holds	True
+C1_splits_passing	13
+C1_holds	False
+C2_splits_passing	0
+C2_holds	False
+C3_splits_passing	0
+C3_holds	False
+state_supported	False
+outcome	C: the group does not repeat (no support in this dataset)
+modal_igf2bp2_cluster	1
+mean_val_auc_igf2bp2	0.5332432703326313
+mean_comparison_beaten_auc	41.7
+C4_holds	not evaluated (state not supported)
