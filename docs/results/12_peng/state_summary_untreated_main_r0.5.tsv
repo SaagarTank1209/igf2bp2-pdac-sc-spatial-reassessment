@@ -1,0 +1,23 @@
+population	untreated
+variant	main
+resolution	r0.5
+patients	23
+splits	20
+C0_rate	0.85
+C1_rate	0.95
+C2_rate	0.05
+C3_rate	0.15
+C0_splits_passing	17
+C0_holds	True
+C1_splits_passing	19
+C1_holds	True
+C2_splits_passing	1
+C2_holds	False
+C3_splits_passing	3
+C3_holds	False
+state_supported	False
+outcome	B: the group repeats but IGF2BP2 is not special (IGF2BP2 is one marker among many)
+modal_igf2bp2_cluster	0
+mean_val_auc_igf2bp2	0.5542469041318725
+mean_comparison_beaten_auc	73.65
+C4_holds	not evaluated (state not supported)
