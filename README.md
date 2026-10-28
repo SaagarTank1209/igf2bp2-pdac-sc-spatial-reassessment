@@ -4,14 +4,15 @@ BINF6420 final project, Northeastern University, Fall 2026. Author: Sagar Shanti
 
 ## Summary
 
-Chen et al. (2026) report that pancreatic cancer cells with high IGF2BP2 form a distinct state that is linked to lipid metabolism and immune suppression. This project tests part of that claim with public data. It uses rules written down before the results, statistics that count patients (not cells or spots) as the units, and negative controls.
+Chen et al. (2026) report that pancreatic cancer cells with high IGF2BP2 form a distinct state that is linked to lipid metabolism and immune suppression. This project tests part of that claim with public data, using rules written down before the results, statistics that count patients (not cells or spots) as the units, and negative controls.
 
 Findings in short:
 
-1. **Spatial test (GSE111672, 9 tissue arrays from 5 tumors): inconclusive.** IGF2BP2-detected spots show no clear link to a lipid score (mean 0.068 SD, interval -0.108 to 0.245, 3 of 5 tumors positive) or a macrophage score (-0.098 SD, interval -0.237 to 0.041). A positive control failed, and the data could only have detected effects of about 0.4 SD or larger.
+1. **Spatial test (GSE111672, 9 tissue arrays from 5 tumors): inconclusive.** IGF2BP2 detected spots show no clear link to a lipid score (mean 0.068 SD, interval -0.108 to 0.245, 3 of 5 tumors positive) or a macrophage score (-0.098 SD, interval -0.237 to 0.041). A positive control failed, and the data could only have detected effects of about 0.4 SD or larger.
 2. **Reproducibility in two tumors: not shown.** Genes linked to IGF2BP2 in tumor A and in tumor B overlapped by 1 gene against 2.6 expected by chance.
-3. **External check (GSE202051, 43 patients, 64,538 cancer nuclei): a reproducible association, but not specific to IGF2BP2.** Across 18 untreated patients a program derived from the other patients separated IGF2BP2-detected from undetected nuclei (mean AUC 0.566). But 49 of 100 randomly chosen genes detected at similar rates did as well or better, so this reflects a shared axis of variation and not an IGF2BP2-specific program. No lipid link was found (mean effect -0.042 SD, interval -0.101 to 0.017).
-4. **Overall:** no evidence here for an IGF2BP2-specific malignant program with lipid or immune links. This does not refute the paper. Every test uses IGF2BP2 detection as a stand-in for a cluster-defined state whose gene list is not public, and the data are small or non-specific.
+3. **External check (GSE202051, 43 patients, 64,538 cancer nuclei): a reproducible association, but not specific to IGF2BP2.** Across 18 untreated patients a program derived from the other patients separated IGF2BP2 detected from undetected nuclei (mean AUC 0.566), but 49 of 100 random genes detected at similar rates did as well or better. No lipid link was found (mean effect -0.042 SD, interval -0.101 to 0.017).
+4. **State extension (GSE202051): the group repeats, but IGF2BP2 is not special.** Cancer nuclei of the 18 untreated patients were clustered after patient alignment and tested on held out patients in 20 random splits. A broad cluster (41 percent of the nuclei, present in 15 of 18 patients) with more IGF2BP2 recurred (outcome B). IGF2BP2 never beat 95 of its 100 matched comparison genes: 0 of 20 splits for enrichment and for signature, and 1 and 2 of 120 splits over six runs (two populations, three resolutions).
+5. **Overall:** no evidence here for an IGF2BP2 specific malignant state with lipid or immune links. This does not refute the paper: its state gene list and code are not public, and every test here uses IGF2BP2 detection, nuclei, or our own clustering as a stand in.
 
 ## What was and was not tested
 
@@ -33,30 +34,30 @@ Nextflow on Slurm (Northeastern Explorer). Steps are numbered scripts in `notebo
 |---|---|---|
 | 01 | `01_load_qc.py` | Loads and cleans the data, writes QC tables |
 | 02 | `02_sc_annotation.py` | Clusters single cells and writes marker tables for labeling |
-| 03 | `03_state_program.py` | Reproducibility gate: IGF2BP2-linked genes in one tumor tested in the other |
-| 04 | `04_spatial_tests.py` | Spatial tests with covariates, a block-shuffle null, and matched random gene sets |
-| 05 | `05_posthoc_diagnostics.py` | Post-hoc: detectability, signature coherence, random-set bias |
-| 06 | `06_figures.py` | Figures |
+| 03 | `03_state_program.py` | Reproducibility gate: IGF2BP2 linked genes in one tumor tested in the other |
+| 04 | `04_spatial_tests.py` | Spatial tests with covariates, a block shuffle null, and matched random gene sets |
+| 05 | `05_posthoc_diagnostics.py` | Post hoc: detectability, signature coherence, random set bias |
+| 06 | `06_figures.py` | Figures 1 to 5 |
 | 07 | `07_external_extract.py` | Extracts cancer nuclei from GSE202051 and checks eligibility |
 | 08 | `08_external_analysis.py` | External tests E1 (program reproducibility) and E2 (lipid link) |
-| 09 | `09_external_robustness.py` | Post-hoc: technical covariates and matched random exposures |
+| 09 | `09_external_robustness.py` | Post hoc: technical covariates and matched random exposures |
+| 10 | `10_external_figure.py` | Figure 6 |
+| 11 | `11_state_map.py` | Comparison genes and the patient aligned map of cancer nuclei |
+| 12 | `12_state_test.py` | Held out test of the IGF2BP2 enriched cluster (criteria C0 to C4) |
+| 13 | `13_state_figure.py` | Figure 7 |
 
-Steps 01 to 06 run in one command. Steps 07 to 09 run through the separate `scripts/run_external_*.sbatch` files.
+Steps 01 to 06 run in one command. Steps 07 to 09 and 11 to 12 run through the separate `scripts/run_*.sbatch` files; steps 10 and 13 are plain Python scripts that read the saved tables.
 
 ## Reproduce
 
 1. Clone the repository on Explorer, for example into `/scratch/$USER`.
-2. Build the environment (`scripts/build_env.sbatch`). The conda environment is located by path in `nextflow.config`. Exact versions are in `environment.lock.yml`. The cell2location environment (`scripts/build_c2l_env.sbatch`) was built and tested but is not used by the analysis.
+2. Build the environment (`scripts/build_env.sbatch`). The conda environment is located by path in `nextflow.config`. Exact versions are in `environment.lock.yml`; `environment.extension.txt` lists harmonypy 2.1.0, installed afterwards with `pip install --no-deps`. The cell2location environment (`scripts/build_c2l_env.sbatch`) was built and tested but is not used by the analysis.
 3. Download the data: `bash scripts/download_data.sh /scratch/$USER/pdac_spatial`
-4. Run the main pipeline:
-
-```
-sbatch scripts/run_pipeline.sbatch --step all --datadir /scratch/$USER/pdac_spatial --outdir /scratch/$USER/pdac_spatial/results
-```
-
+4. Run the main pipeline: `sbatch scripts/run_pipeline.sbatch --step all --datadir /scratch/$USER/pdac_spatial --outdir /scratch/$USER/pdac_spatial/results`
 5. External check, in order: `sbatch scripts/run_external_extract.sbatch`, then `scripts/run_external_analysis.sbatch`, then `scripts/run_external_robustness.sbatch`.
+6. State extension: a smoke test first with `NSPLITS=3 sbatch scripts/run_state_extension.sbatch`, then the full run on the map already built with `SKIP_MAP=1 sbatch scripts/run_state_extension.sbatch`. The secondary run uses `POP=all_eligible sbatch scripts/run_state_extension.sbatch`.
 
-A clean-room run of the main pipeline from a fresh clone (commit dc82ec8) finished six tasks in 7 minutes 17 seconds, and ten key result tables were byte-identical to the original runs. Paths and Slurm settings are specific to Explorer. Small result tables and figures are saved in `docs/results` and `docs/figures`.
+A clean room run of the main pipeline from a fresh clone (commit dc82ec8) finished six tasks in 7 minutes 17 seconds, and ten key result tables were byte identical to the original runs. Steps 07 to 13 were not part of that check. Paths and Slurm settings are specific to Explorer. Small result tables and figures are saved in `docs/results` and `docs/figures`.
 
 ## Repository layout
 
@@ -69,19 +70,20 @@ A clean-room run of the main pipeline from a fresh clone (commit dc82ec8) finish
 
 ## Pre-specification and provenance
 
-The rules for each analysis were committed before its results existed (dates of 22 October 2026). The external check plan is commit 6f419e3. Amendment A1, a secondary exposure, is commit dc82ec8, written after detection rates were seen and before any association was computed. The analysis script and implementation clarifications are commit 804a97b. The robustness plan and script 09 are commit 1ae8e72. Steps 05 and 09 and the bias-corrected values are labeled post-hoc in `docs/input_manifest.md`.
+The rules for each analysis were committed before its results existed (all dates are in 2026). The external check plan is commit 6f419e3 (22 October). Amendment A1, a secondary exposure, is commit dc82ec8, written after detection rates were seen and before any association was computed. The analysis script and implementation clarifications are commit 804a97b, and the robustness plan and script 09 are commit 1ae8e72. The state extension plan is commit c38d789 (22 October, 23:36). Its text was accidentally overwritten in commit e9a0f9b (28 October) and restored unchanged from c38d789 in commit 3f2b2c0, before any state analysis was run; the clarifications and scripts are in e9a0f9b, and a 3 split smoke test preceded the full run. Steps 05 and 09, the leave one out tables and the bias corrected values are labeled post hoc in `docs/input_manifest.md`.
 
-One design flaw is recorded openly: the external pass rule for E1 tested for a reproducible association and not for specificity to IGF2BP2, so E1 passed as written. The matched random exposures in step 09 were added because of that gap.
+Two design points are recorded openly. The external pass rule for E1 tested for a reproducible association and not for specificity to IGF2BP2, so E1 passed as written, and the matched random exposures of step 09 were added because of that gap. The state extension then required specificity (beating 95 of 100 matched genes) in its rules from the start.
 
 ## Limitations
 
 - Five tumors in the spatial analysis, and old arrays with 20 to 70 cells per spot, shallow depth, and almost no detectable immune genes.
-- IGF2BP2 detection is a noisy stand-in for the paper's state. The paper's gene list is not in its supplement.
-- The cancer-cell calls in GSE111672 rest on marker genes only. The GSE202051 labels come from the dataset authors and may contain errors.
+- IGF2BP2 detection is a noisy stand in for the paper's state, whose gene list is not public. The state extension used our own clustering in nuclei, so a negative result is not a failure to reproduce the paper.
+- The state extension depends on the clustering resolution (the group repeats at 0.3 but not at 0.2), and its map was built on all patients, including those of the validation half.
+- The comparison genes are matched on detection and expression level but not on gene length. Whether the shared axis is technical or biological is not determined.
+- Cancer cell calls in GSE111672 rest on marker genes only. The GSE202051 labels are the authors' and may contain errors, and the stricter label sensitivity was not run.
 - The positive control failed because the stress score is not a coherent module in these data.
 - The lipid and macrophage gene lists were chosen for this project and are not the paper's scores.
-- GSE202051 is nuclei, not whole cells, and the paper also used this dataset for other analyses.
-- Matched random exposures were matched loosely, and gene length was not controlled.
+- GSE202051 was also used by Chen et al. for other analyses.
 
 ## AI assistance
 
