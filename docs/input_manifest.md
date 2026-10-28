@@ -270,3 +270,7 @@ Across the six runs (two populations, three resolutions, 120 splits) C2 passes i
 
 Job 11451521 completed without error in 9 minutes 7 seconds (peak memory 6.8 GB).
 Note on the outcome rule: the clarifications defined outcome C as "C0 fails" and left one case undefined, C0 holds but C1 fails. The script, written before any state analysis was run, labels this case C (the group does not repeat across enough patients). The case occurs once, in the untreated run at resolution 0.5 (C0 passes in 17 of 20 splits, C1 in 13 of 20). Outcome C is therefore applied as: C0 or C1 fails.
+
+## Post-hoc sensitivity of the spatial result (step 14, 2026-10-28)
+
+The locked analysis of step 04 uses all nine arrays. Post hoc, the tumor level aggregation was repeated without array A3 and with each tumor dropped in turn (docs/results/04_spatial/leave_one_out.tsv). Without A3: H1 mean 0.048 (-0.089 to 0.184), H2 mean -0.087 (-0.226 to 0.052), control mean -0.046 (-0.076 to -0.016). Dropping one tumor at a time: H1 means 0.018 to 0.109 and H2 means -0.134 to -0.057, and none of the 5 intervals of either outcome excludes zero. The control mean stays negative in every case; its interval includes zero by a hair when tumor D (upper limit 0.0003) or tumor G (0.0009) is dropped. No verdict of step 04 changes. Dropping A3 was not planned beforehand.
