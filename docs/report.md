@@ -46,6 +46,13 @@ Step 09 (post-hoc) re-ran E1 with additional covariates (log detected genes, a n
 ### 2.8 Pre-specification and reproducibility
 Analysis rules were committed before their results existed, and every later addition is labeled post-hoc in `docs/input_manifest.md`. The external plan is commit 6f419e3, the secondary exposure dc82ec8, the analysis script and clarifications 804a97b, and the robustness plan 1ae8e72. The pipeline is Nextflow on Slurm with fixed seeds (Python 3.11, scanpy 1.11.5). A clean-room run of the main pipeline from a fresh clone (dc82ec8) completed in 7 minutes 17 seconds, with ten key result tables byte-identical to the original runs.
 
+### 2.9 State extension in the independent dataset (steps 11 and 12)
+Question A was tested in GSE202051 as an independent dataset: single nuclei from different patients, clustered by us. It is not the paper's method on the paper's data. The plan, the rule for when the group counts as having come back, and the three outcomes were committed before any clustering was run (plan: commit c38d789 on 22 October 2026; the plan text was accidentally overwritten in commit e9a0f9b and restored unchanged in commit 3f2b2c0, before any state analysis was run; clarifications: commit e9a0f9b).
+
+IGF2BP2 and 100 comparison genes were chosen before any map existed: the genes closest to IGF2BP2 in per patient detection fraction and in mean log expression among detected cancer nuclei, among genes with at least 30 detected and 30 undetected nuclei in every patient, excluding lncRNA-like genes. All 101 genes were removed from the inputs of the map. The map used 3,000 variable genes chosen across patients, PCA with 30 components, Harmony with patient as the batch, a neighbor graph with 30 neighbors, and Leiden clustering at resolution 0.3 (primary), 0.2 and 0.5. A variant with exactly three clusters, as in the paper, could not be formed: no resolution in the grid gave exactly three clusters of at least 5 percent of the nuclei each.
+
+The patients were split at random 20 times into a discovery half and a validation half (9 and 9 for the 18 untreated patients, the primary run; 13 and 13 for all 26 eligible patients, with treated and untreated patients split evenly, the secondary run). In the discovery half, for IGF2BP2 and for each comparison gene separately, the cluster with the largest mean difference in detection fraction (inside minus outside) was found, and a 100 gene signature was built from the genes with the largest t statistic of the inside minus outside difference in expression. In the validation half four criteria were evaluated. C0: IGF2BP2 is more often detected inside the cluster, and the signature separates nuclei with IGF2BP2 from nuclei without it (AUC above 0.5, in at least 60 percent of the validation patients). C1: at least 60 percent of the validation patients have at least 5 percent of their nuclei in the cluster. C2 and C3: the enrichment and the signature AUC of IGF2BP2 exceed those of at least 95 of the 100 comparison genes. A criterion holds if it passes in at least 14 of the 20 splits. The outcomes were fixed in advance. A: C0 to C3 hold, the group repeats and IGF2BP2 is special. B: C0 and C1 hold but C2 or C3 fails, the group repeats but IGF2BP2 is one marker among many. C: C0 or C1 fails, the group does not repeat in this dataset. The lipid test (C4) was to be evaluated only if C1 to C3 held. A smoke test with 3 splits was run first, and no rule was changed after it.
+
 ## 3. Results
 
 ### 3.1 Cell calls
@@ -122,6 +129,28 @@ The robustness checks changed the interpretation of E1 (Table 4, Figure 6). Addi
 ![Figure 6](figures/fig6_external_check.png)
 
 *Figure 6. External check on GSE202051 (untreated patients, primary exposure). Top left: mean held-out AUC of 100 random genes detected at similar rates (histogram) against IGF2BP2 (red) and the shuffled-label null (dashed). Top right: held-out AUC for each patient. Bottom left: the robustness variants against the spread of the random genes. Bottom right: lipid score effect of IGF2BP2 detection for each patient.*
+
+### 3.6 State extension in the independent dataset
+The extension ran on the 18 untreated patients (52,999 cancer nuclei), which formed 7 clusters at the primary resolution of 0.3. IGF2BP2 was most enriched in cluster 1 in 18 of the 20 splits. Cluster 1 is the largest cluster, with 21,703 nuclei (40.9 percent); 15 of the 18 patients have at least 5 percent of their nuclei in it, and no patient supplies more than 19.4 percent of it. In the other two splits IGF2BP2 picked cluster 6, which is 98 percent one patient's nuclei, and the rules rejected it. In validation patients IGF2BP2 was detected 0.108 more often inside cluster 1 than outside (range 0.071 to 0.146), and the signature built in the discovery patients gave a mean AUC of 0.540 (0.524 to 0.554).
+
+C0 and C1 passed in 18 of 20 splits, so the group repeats. C2 and C3 passed in none of the 20 splits: IGF2BP2 beat on average 63 of the 100 comparison genes on enrichment (range 38 to 81) and 65 on the signature AUC (range 45 to 81), against the 95 required (Figure 7). The outcome is B: the group repeats, but IGF2BP2 is not special. The lipid test was therefore not evaluated.
+
+| Population | Resolution | C0 | C1 | C2 | C3 | Outcome |
+|---|---|---|---|---|---|---|
+| 18 untreated (primary) | 0.3 | 18 | 18 | 0 | 0 | B |
+| 18 untreated | 0.2 | 7 | 6 | 0 | 0 | C |
+| 18 untreated | 0.5 | 17 | 13 | 0 | 0 | C |
+| 26 eligible | 0.3 | 20 | 20 | 1 | 2 | B |
+| 26 eligible | 0.2 | 8 | 7 | 0 | 0 | C |
+| 26 eligible | 0.5 | 19 | 19 | 0 | 0 | B |
+
+*Table 5. Splits passing each criterion (of 20; 14 are needed). C0 the group repeats, C1 spread over patients, C2 enrichment specific to IGF2BP2, C3 signature specific to IGF2BP2.*
+
+![Figure 7](figures/fig7_state_extension.png)
+
+*Figure 7. State extension on GSE202051 cancer nuclei. Left: for each of the 20 splits of the primary run, the number of the 100 comparison genes that IGF2BP2 beat on enrichment (blue) and on signature AUC (orange); open points mark the two splits in which IGF2BP2 picked a patient specific cluster; the dashed line is the 95 required. Right: splits passing each criterion in each run, against the 14 needed.*
+
+The sensitivities agree on the main point. At resolution 0.2 the group does not repeat. At 0.5 the untreated run is labeled C only because C1 passed in 13 splits, one short of 14, although C0 passed in 17; with 26 patients the same resolution gives B. C2 and C3 passed in 1 and 2 of the 120 splits of the six runs, so the conclusion that IGF2BP2 is not special does not depend on the population or the resolution. With the treated patients included, IGF2BP2 ranked somewhat higher (it beat on average 78 of the 100 comparison genes on the signature AUC at resolution 0.3), which was not investigated further because an analysis of the 8 treated patients alone would be post hoc and underpowered.
 
 ## 4. Discussion
 
