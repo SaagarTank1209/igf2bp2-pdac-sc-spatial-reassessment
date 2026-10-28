@@ -11,14 +11,15 @@
 #   Smoke test first (3 splits, writes files tagged _n3):   NSPLITS=3 sbatch scripts/run_state_extension.sbatch
 #   Full run on the map already built (skips the map):      SKIP_MAP=1 sbatch scripts/run_state_extension.sbatch
 #   Secondary populations and variants:  POP=all_eligible sbatch ...      VAR=S1 sbatch ...
+#   Another dataset (cache and output folder overridden):  CACHE=/path/cache.h5ad OUT=/path/results sbatch ...
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 POP=${POP:-untreated}
 VAR=${VAR:-main}
 NSPLITS=${NSPLITS:-20}
 PY="env PYTHONNOUSERSITE=1 OMP_NUM_THREADS=4 /scratch/$USER/envs/pdac-spatial/bin/python"
-CACHE=/scratch/$USER/pdac_spatial/external/GSE202051/GSE202051_cancer_nuclei.h5ad
-OUT=/scratch/$USER/pdac_spatial/results/11_state
+CACHE=${CACHE:-/scratch/$USER/pdac_spatial/external/GSE202051/GSE202051_cancer_nuclei.h5ad}
+OUT=${OUT:-/scratch/$USER/pdac_spatial/results/11_state}
 if [ "${SKIP_MAP:-0}" = "1" ] && [ -s "$OUT/clusters_${POP}_${VAR}.tsv" ]; then
   echo "skipping the map: using $OUT/clusters_${POP}_${VAR}.tsv"
 else
